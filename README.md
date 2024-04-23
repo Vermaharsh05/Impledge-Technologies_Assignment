@@ -1,4 +1,4 @@
-# Using a HashSet to store the words read from the input files ensuring efficient identification of compound words.
+# used  Scanner class to read lines from the input file, and then store them in an ArrayList.
 # Using DFS to recursively check if a word can be split into smaller words found in the HashSet can help determine if it is a compound word.
 # Sorting the words based on length can optimize the search for compound words, especially when dealing with large word lists.
 # This program works by first creating a set of all the unique words in the given set. Then, it iterates over the set and checks if each word is a compound word.To check if a word is a compound word, it splits the word into all possible pairs of prefixes and suffixes. If both the prefix and the suffix are in the set of words, then the word is a compound word.
