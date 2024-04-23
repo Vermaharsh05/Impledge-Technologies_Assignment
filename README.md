@@ -1,6 +1,6 @@
 # used  Scanner class to read lines from the input file, and then store them in an ArrayList.
-# Using DFS to recursively check if a word can be split into smaller words found in the HashSet can help determine if it is a compound word.
-# Sorting the words based on length can optimize the search for compound words, especially when dealing with large word lists.
-# This program works by first creating a set of all the unique words in the given set. Then, it iterates over the set and checks if each word is a compound word.To check if a word is a compound word, it splits the word into all possible pairs of prefixes and suffixes. If both the prefix and the suffix are in the set of words, then the word is a compound word.
-# The program keeps track of the longest compound word it finds. At the end of the program, it prints the longest and second longest compound word to the console.
-# To measure the time taken to process the input files, I used System.currentTimeMillis() to capture the current time before and after the processing and calculate the difference.
+# The program employs a recursive approach to check if a word can be split into smaller words found in the list, enabling the identification of compound words by breaking them down into smaller components.
+# isCompoundWord method recursively checks if a word can be split into smaller words present in the list, ensuring the identification of compound words based on the concatenation of shorter words.
+# By iterating through the list of words and checking for compound word conditions, the program aims to efficiently identify compound words while considering the length and composition of each word.
+# program measures the time taken to process the input file, providing insights into the performance of the compound word identification process.
+# program includes exception handling to manage potential FileNotFoundException when reading the input file, ensuring robustness in handling file-related errors.
