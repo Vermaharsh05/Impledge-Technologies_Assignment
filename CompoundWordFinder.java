@@ -1,71 +1,76 @@
 package Assignment;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class CompoundWordFinder {
-
-    private static Set<String> wordSet = new HashSet<>();
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
         long startTime = System.currentTimeMillis();
+        List<String> list = new ArrayList<>();
 
-        // readInputFile("Input_01.txt");
-        readInputFile("Input_02.txt");
+        try {
+            File file = new File("Input_01.txt");
+           // File file = new File("Input_02.txt");
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                list.add(line);
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        String longestCompoundWord = findLongestCompoundWord();
-        String secondLongestCompoundWord = findSecondLongestCompoundWord();
+        String longestword = "";
+        String secondLongestWord = "";
 
-        System.out.println("Longest Compound Word: " + longestCompoundWord);
-        System.out.println("Second Longest Compound Word: " + secondLongestCompoundWord);
+        for (String word : list) {
+            if (isCompoundWord(word, list)) {
+                if (word.length() > longestword.length()) {
+                    secondLongestWord = longestword;
+                    longestword = word;
+                } else if (word.length() > secondLongestWord.length()) {
+                    secondLongestWord = word;
+                }
+            }
+        }
 
         long endTime = System.currentTimeMillis();
         long timeTaken = endTime - startTime;
+
+        System.out.println("Longest Compound Word: " + longestword);
+        System.out.println("Second Longest Compound Word: " + secondLongestWord);
         System.out.println("Time taken to process file: " + timeTaken + " milliseconds");
+
     }
-    private static void readInputFile(String fileName) {
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                wordSet.add(line.trim());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static boolean startsWith(String str, String prefix) {
+        if (str == null || prefix == null || prefix.isEmpty()) {
+            return false;
         }
+
+        if (str.length() < prefix.length()) {
+            return false;
+        }
+
+        for (int i = 0; i < prefix.length(); i++) {
+            if (str.charAt(i) != prefix.charAt(i)) {
+                return false;
+            }
+        }
+
+        return true;
     }
-    private static boolean isCompoundWord(String word) {
-        for (int i = 1; i < word.length(); i++) {
-            String prefix = word.substring(0, i);
-            if (wordSet.contains(prefix)) {
-                String suffix = word.substring(i);
-                if (wordSet.contains(suffix) || isCompoundWord(suffix)) {
+
+    private static boolean isCompoundWord(String word, List<String> wordsList) {
+        for (String wordPart : wordsList) {
+            if (wordPart.length() < word.length() && startsWith(word,wordPart)) {
+                String suffix = word.substring(wordPart.length());
+                if (wordsList.contains(suffix) || isCompoundWord(suffix, wordsList)) {
                     return true;
                 }
             }
         }
         return false;
     }
-    private static String findLongestCompoundWord() {
-        String longestWord = "";
-        for (String word : wordSet) {
-            if (isCompoundWord(word) && word.length() > longestWord.length()) {
-                longestWord = word;
-            }
-        }
-        return longestWord;
-    }
-    private static String findSecondLongestCompoundWord() {
-        String longestWord = findLongestCompoundWord();
-        String secondLongestWord = "";
-        for (String word : wordSet) {
-            if (isCompoundWord(word) && !word.equals(longestWord) && word.length() > secondLongestWord.length()) {
-                secondLongestWord = word;
-            }
-        }
-        return secondLongestWord;
-    }
 }
-
